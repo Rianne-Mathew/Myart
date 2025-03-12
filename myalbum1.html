@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Over the Years - Gallery</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e9e6df;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            color: black;
+            margin-bottom: 20px;
+        }
+
+        .gallery-container {
+            position: relative;
+            width: 60%;
+            max-width: 600px;
+            margin: auto;
+        }
+
+        .painting-container {
+            display: none;
+            position: relative;
+        }
+
+        .painting-container.active {
+            display: block;
+        }
+
+        .painting img {
+            width: 100%;
+            border: 10px solid black;
+            border-radius: 5px;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            cursor: pointer;
+        }
+
+        .painting:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.5);
+        }
+
+        .painting-name {
+            margin-top: 10px;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        /* Tooltip (hover description) */
+        .tooltip {
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 14px;
+            display: none;
+            z-index: 10;
+        }
+
+        /* Navigation Buttons */
+        .nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .nav-button:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .prev {
+            left: -50px;
+        }
+
+        .next {
+            right: -50px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-button {
+                font-size: 1.2rem;
+                padding: 8px 12px;
+            }
+
+            .prev {
+                left: 10px;
+            }
+
+            .next {
+                right: 10px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1>Over the Years</h1>
+
+    <div class="gallery-container">
+        <button class="nav-button prev" onclick="prevPainting()">❮</button>
+
+        <div class="painting-container active" data-title="Grandeur" data-description="Acrylic on Canvas">
+            <div class="painting">
+                <img src="aurora.jpg" alt="Tranquil Night Sky" onmouseover="showTooltip(event, this)" onmouseout="hideTooltip()">
+                <div class="tooltip"></div>
+            </div>
+            <div class="painting-name">Tranquil Night Sky</div>
+        </div>
+        <div class="painting-container" data-title="At Lakeside" data-description="At the Lakeside on acrylic, inspired from a photo.">
+            <div class="painting">
+                <img src="lakesidesunset.jpg" alt="Lakeside" onmouseover="showTooltip(event, this)" onmouseout="hideTooltip()">
+                <div class="tooltip"></div>
+            </div>
+            <div class="painting-name">Lakeside</div>
+        </div>
+        <div class="painting-container" data-title="The Bridge" data-description="The iconic piece of architecture on acrylic.">
+            <div class="painting">
+                <img src="bridge.jpg" alt="SFO" onmouseover="showTooltip(event, this)" onmouseout="hideTooltip()">
+                <div class="tooltip"></div>
+            </div>
+            <div class="painting-name">Ocean Waves</div>
+        </div>
+ 
+         <div class="painting-container">
+                <div class="painting gold-frame" onclick="showPopup('Magic of Autumn', 'An attempt to capture the warm tones of the Autumn sunset on acrylic.')">
+            <img src="autumn.jpg" alt="Sunset Bliss">
+        </div>
+<div class="description right">A warm-toned masterpiece inspired by evening skies.</div>
+    </div>
+<div class="painting-container">
+ 	    <div class="description left">Sunset on the grounds.</div>
+            <div class="painting wood-frame" onclick="showPopup('Sunset', 'An attempt at capturing the grand campus grounds on acrylic.')">
+                <img src="sunset.jpg" alt="Ocean Waves">
+            </div>           
+        </div>
+	<div class="painting-container">
+ 	    <div class="painting wood-frame" onclick="showPopup('Mount Fuji', 'Another Acrylic - Cherry blossoms and snow peaked Mount Fuji.')">
+                <img src="mountfuji.jpg" alt="Ocean Waves">
+            </div>           
+<div class="description right">Cherry blossoms and snow peaked Mount Fuji.</div>            
+</div>
+<div class="painting-container">
+ 	    <div class="description left">The Valley of flowers.</div>
+            <div class="painting wood-frame" onclick="showPopup('Mountains', 'Sunrise in the Valley of flowers - 2 piece art on acrylic.')">
+                <img src="mountains.jpg" alt="Ocean Waves">
+            </div>           
+            </div>
+<div class="painting-container">
+            <div class="painting wood-frame" onclick="showPopup('Onward', 'The Highway - inspired from scripture on acrylic.')">
+                <img src="throughthewaters.jpg" alt="Ocean Waves">
+            </div>           
+ 	    <div class="description right">Through the High Sea.</div>
+            </div>
+<div class="painting-container">
+ 	    <div class="description left">Firm waters, Gentle feet.</div>
+            <div class="painting wood-frame" onclick="showPopup('Peace', 'Breakthrough at Dawn- inspired from scripture on acrylic.')">
+                <img src="uponthewaters.jpg" alt="Ocean Waves">
+            </div>           
+            </div>
+<div class="painting-container">
+            <div class="painting wood-frame" onclick="showPopup('Pondering', 'Crown of Creation - Watercolor inspired from scripture.')">
+                <img src="manabstract.jpg" alt="Ocean Waves">
+            </div>           
+ 	    <div class="description right">Pondering.</div>
+            </div>
+<div class="painting-container">
+ 	    <div class="description left">Birch Trees.</div>
+            <div class="painting wood-frame" onclick="showPopup('Trees', 'Birch Trees and colors - Watercolor on Hard Paper board')">
+                <img src="birchtrees.jpg" alt="Ocean Waves">
+            </div>           
+            </div>
+<div class="painting-container">
+            <div class="painting wood-frame" onclick="showPopup('Hues', 'Playing with colors - acrylic on canvas')">
+                <img src="hues.jpg" alt="Ocean Waves">
+            </div>           
+ 	    <div class="description right">Statement.</div>
+            </div>
+<div class="painting-container">
+ 	    <div class="description left">Broken Vase, Fading Flower.</div>
+            <div class="painting wood-frame" onclick="showPopup('Blue Vase', 'Playing with Watercolor')">
+                <img src="thevase.jpg" alt="Ocean Waves">
+            </div>   </div>         
+<div class="painting-container">
+            <div class="painting wood-frame" onclick="showPopup('Red Flowers', 'Watercolor on paper')">
+                <img src="redflowers.jpg" alt="Ocean Waves">
+            </div>  
+ 	    <div class="description right">The Vase, Red flowers.</div>
+</div>          
+<div class="painting-container">
+ 	    <div class="description left">After Sunset.</div>
+            <div class="painting wood-frame" onclick="showPopup('Colors After Sunset', 'Acrylic on cloth')">
+                <img src="sunsetatgrandpas.jpg" alt="Ocean Waves">
+            </div> 
+        </div>
+<div class="painting-container">
+            <div class="painting wood-frame" onclick="showPopup('Green Pasture, Still Waters', 'Acrylic')">
+                <img src="landscape.jpg" alt="Ocean Waves">
+            </div> 
+ 	    <div class="description right">Hills and Valley</div>
+        </div>
+<div class="painting-container">
+ 	    <div class="description left">Beach</div>
+            <div class="painting wood-frame" onclick="showPopup('Beach', 'Watercolor on Paper Cardboard')">
+                <img src="beachthreed.jpg" alt="Ocean Waves">
+            </div> 
+        </div>
+<div class="painting-container">
+            <div class="painting wood-frame" onclick="showPopup('The Lion and the Lamb', 'Pencil sketch')">
+                <img src="lionandlamb.jpg" alt="Ocean Waves">
+            </div> 
+ 	    <div class="description right">Lion and the Lamb</div>
+        </div>
+<div class="painting-container">
+ 	    <div class="description left">Field of Flowers</div>
+            <div class="painting wood-frame" onclick="showPopup('White Flowers in the Field', 'Acrylic on 3 piece canvas')">
+                <img src="whiteflowers.jpg" alt="Ocean Waves">
+            </div> 
+        </div>
+<div class="painting-container">
+            <div class="painting wood-frame" onclick="showPopup('Walking Along', 'Watercolor on Paper')">
+                <img src="thewalk.jpg" alt="Ocean Waves">
+            </div> 
+ 	    <div class="description right">Friends</div>
+        </div>
+<div class="painting-container">
+ 	    <div class="description left">Magnolias</div>
+            <div class="painting wood-frame" onclick="showPopup('Magnolias trunk', 'Acrylic on Canvas')">
+                <img src="floweringbranch.jpg" alt="Ocean Waves">
+            </div> 
+        </div>
+<div class="painting-container">
+            <div class="painting wood-frame" onclick="showPopup('Lilies in the Pond', 'Acrylic on Canvas')">
+                <img src="lillies.jpg" alt="Ocean Waves">
+            </div> 
+ 	    <div class="description right">Lilies in the Pond</div>
+        </div>
+<div class="painting-container">
+ 	    <div class="description left">Flower and Bud</div>
+            <div class="painting wood-frame" onclick="showPopup('Flower and Bud', 'Acrylic on Wood')">
+                <img src="flowerbud.jpg" alt="Ocean Waves">
+            </div> 
+        </div>
+<div class="painting-container">
+            <div class="painting wood-frame" onclick="showPopup('Spring', 'Acrylic on Canvas')">
+                <img src="orangecanvas1.jpg" alt="Ocean Waves">
+            </div> 
+ 	    <div class="description right">Yellow Flowers Trunk</div>
+        </div>
+<div class="painting-container">
+ 	    <div class="description left">Magic of Dandelions</div>
+            <div class="painting wood-frame" onclick="showPopup('Dandelions Dance', 'Water color on wood')">
+                <img src="dandelionstwilight.jpg" alt="Ocean Waves">
+            </div> 
+        </div>
+<div class="painting-container">
+            <div class="painting wood-frame" onclick="showPopup('Two Birds at Sunset', 'Acrylic on Canvas')">
+                <img src="twobirds.jpg" alt="Ocean Waves">
+            </div> 
+ 	    <div class="description right">Soulmates Rest and Reflect</div>
+        </div>
+
+        <button class="nav-button next" onclick="nextPainting()">❯</button>
+    </div>
+
+    <script>
+        let currentIndex = 0;
+        const paintings = document.querySelectorAll('.painting-container');
+
+        function showPainting(index) {
+            paintings.forEach((painting, i) => {
+                painting.classList.toggle('active', i === index);
+            });
+        }
+
+        function nextPainting() {
+            currentIndex = (currentIndex + 1) % paintings.length;
+            showPainting(currentIndex);
+        }
+
+        function prevPainting() {
+            currentIndex = (currentIndex - 1 + paintings.length) % paintings.length;
+            showPainting(currentIndex);
+        }
+
+        function showTooltip(event, element) {
+            const container = element.closest('.painting-container');
+            const tooltip = container.querySelector('.tooltip');
+            const title = container.getAttribute('data-title');
+            const description = container.getAttribute('data-description');
+            tooltip.innerHTML = `<strong>${title}</strong><br>${description}`;
+            tooltip.style.display = "block";
+            tooltip.style.top = `${event.clientY + 15}px`;
+            tooltip.style.left = `${event.clientX + 15}px`;
+        }
+
+        function hideTooltip() {
+            document.querySelectorAll('.tooltip').forEach(tooltip => {
+                tooltip.style.display = "none";
+            });
+        }
+    </script>
+
+</body>
+</html>
