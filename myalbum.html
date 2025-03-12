@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Over the Years</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e9e6df;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            color: black;
+            margin-bottom: 20px;
+        }
+        .album-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            max-width: 600px;
+            margin: auto;
+        }
+        .painting {
+            position: relative;
+            padding: 10px;
+            border-radius: 8px;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            cursor: pointer;
+        }
+        .painting img {
+            width: 100%;
+            max-width: 500px;
+            border: 10px solid black;
+            border-radius: 5px;
+        }
+        .description {
+            margin-top: 10px;
+            font-style: italic;
+            font-size: 1.2rem;
+            color: black;
+        }
+        .nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 20px;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+        .nav-button:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+        .prev { left: -50px; }
+        .next { right: -50px; }
+
+        @media (max-width: 600px) {
+            .prev { left: 10px; }
+            .next { right: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Over the Years</h1>
+
+    <div class="album-container">
+        <button class="nav-button prev" onclick="prevImage()">&#9664;</button>
+        <div class="painting">
+            <img id="album-image" src="aurora.jpg" alt="Artwork">
+        </div>
+        <p class="description" id="image-description">Tranquil night sky</p>
+        <button class="nav-button next" onclick="nextImage()">&#9654;</button>
+    </div>
+
+    <script>
+        const paintings = [
+            { src: "aurora.jpg", description: "Tranquil night sky" },
+            { src: "lakesidesunset.jpg", description: "Lakeside" },
+            { src: "bridge.jpg", description: "The bridge and the blue ocean." },
+            { src: "autumn.jpg", description: "A warm-toned masterpiece inspired by evening skies." },
+            { src: "sunset.jpg", description: "Sunset on the grounds." },
+            { src: "mountfuji.jpg", description: "Cherry blossoms and snow peaked Mount Fuji." },
+            { src: "mountains.jpg", description: "The Valley of flowers." },
+            { src: "throughthewaters.jpg", description: "Through the High Sea." },
+            { src: "uponthewaters.jpg", description: "Firm waters, Gentle feet." },
+            { src: "manabstract.jpg", description: "Pondering." },
+            { src: "birchtrees.jpg", description: "Birch Trees." },
+            { src: "hues.jpg", description: "Statement." },
+            { src: "thevase.jpg", description: "Broken Vase, Fading Flower." },
+            { src: "redflowers.jpg", description: "The Vase, Red flowers." },
+            { src: "sunsetatgrandpas.jpg", description: "After Sunset." }
+        ];
+
+        let currentIndex = 0;
+        const imageElement = document.getElementById("album-image");
+        const descriptionElement = document.getElementById("image-description");
+
+        function updateImage() {
+            imageElement.src = paintings[currentIndex].src;
+            descriptionElement.textContent = paintings[currentIndex].description;
+        }
+
+        function nextImage() {
+            currentIndex = (currentIndex + 1) % paintings.length;
+            updateImage();
+        }
+
+        function prevImage() {
+            currentIndex = (currentIndex - 1 + paintings.length) % paintings.length;
+            updateImage();
+        }
+    </script>
+
+</body>
+</html>
