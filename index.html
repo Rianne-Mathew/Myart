@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Over the Years</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e9e6df;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            color: black;
+            margin-bottom: 20px;
+        }
+        .album-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            max-width: 600px;
+            margin: auto;
+        }
+        .painting {
+            position: relative;
+            padding: 10px;
+            border-radius: 8px;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            cursor: pointer;
+        }
+        .painting img {
+            width: 100%;
+            max-width: 500px;
+            border: 10px solid black;
+            border-radius: 5px;
+        }
+        .description {
+            margin-top: 10px;
+            font-style: italic;
+            font-size: 1.2rem;
+            color: black;
+        }
+        .nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 20px;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+        .nav-button:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+        .prev { left: -50px; }
+        .next { right: -50px; }
+
+        /* Tooltip Styling */
+        .tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            display: none;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 600px) {
+            .prev { left: 10px; }
+            .next { right: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Over the Years</h1>
+
+   <div class="album-container">
+    <button class="nav-button prev" onclick="prevImage()">&#9664;</button>
+    <div class="painting">
+        <p class="description" id="image-description">Tranquil night sky</p>
+        <img id="album-image" src="aurora.jpg" alt="Artwork"
+            onmousemove="showTooltip(event)" onmouseout="hideTooltip()">
+    </div>
+    <button class="nav-button next" onclick="nextImage()">&#9654;</button>
+</div>
+
+    <div class="tooltip" id="tooltip"></div>
+
+    <script>
+      /*  const paintings = [
+            { src: "aurora.jpg", description: "Symphony of Colors", tooltip: "Northern lights on acrylic." },
+            { src: "lakesidesunset.jpg", description: "Lakeside", tooltip: "Serene sunset over the lake. Acrylic" },
+            { src: "bridge.jpg", description: "The bridge and the blue ocean.", tooltip: "Golden Gate at Dusk on Acrylic" },
+            { src: "autumn.jpg", description: "Fall Hues", tooltip: "Acrylic - Autumn vibes with warm colors." },
+            { src: "sunset.jpg", description: "Sunset on the grounds.", tooltip: "Golden hues of a setting sun." },
+            { src: "mountfuji.jpg", description: "Cherry blossoms against a Snow Peaked Mount Fuji.", tooltip: "Inspired from a painting. Acrylic" },
+            { src: "mountains.jpg", description: "The Valley of flowers.", tooltip: "Inspired from the Himalayas on Acrylic" },
+            { src: "throughthewaters.jpg", description: "Highway in the High Sea.", tooltip: "Abstract art on Acrylic." },
+            { src: "uponthewaters.jpg", description: "Firm beneath gentle feet.", tooltip: "Light colors on Acrylic on canvas." },
+            { src: "manabstract.jpg", description: "Pondering.", tooltip: "An abstract reflection. Watercolor" },
+            { src: "birchtrees.jpg", description: "Birch Trees.", tooltip: "Trying out Acrylic on Hard Paper." },
+            { src: "hues.jpg", description: "Statement.", tooltip: "Playing with colors. Two piece Acrylic on canvas" },
+            { src: "birchforest.jpg", description: "Granduer of Stillness.", tooltip: "Acrylic on canvas." },
+	    { src: "thirdday.jpg", description: "The Tomb.", tooltip: "Capturing the Glory. Acrylic on Canvas." },
+            { src: "thevase.jpg", description: "Blue Vase.", tooltip: "Those early days. Watercolor on paper" },
+            { src: "redflowers.jpg", description: "Red flowers.", tooltip: "Water color." },
+            { src: "sunsetatgrandpas.jpg", description: "Vibrant hues of Dusk", tooltip: "Inspired from a photo on repurposed cloth" }
+        ];*/
+
+const paintings = [
+ { src: "aurora.jpg", description: "Symphony of Colors", tooltip: "Northern Lights, in acrylic hues." },
+ { src: "lakesidesunset.jpg", description: "Lakeside Serenity", tooltip: "Tranquil sunset captured in rich acrylic tones." },
+ { src: "thirdday.jpg", description: "The Empty Tomb", tooltip: "Acrylic on canvas." },
+ { src: "bridge.jpg", description: "Golden Gate at Dusk", tooltip: "View of the iconic Bridge against the deep blue ocean, painted in acrylic." },
+ { src: "autumn.jpg", description: "Autumn Radiance", tooltip: "Autumnal tones in acrylic." },
+ { src: "sunset.jpg", description: "The Grounds after Sundown", tooltip: "Green and grand in acrylic." },
+ { src: "mountfuji.jpg", description: "Cherry Blossoms & Mount Fuji", tooltip: "Composition of delicate colors on acrylic." },
+ { src: "mountains.jpg", description: "Valley of Flowers", tooltip: "An acrylic tribute to the breathtaking Himalayan landscapes" },
+ { src: "throughthewaters.jpg", description: "The Grand Highway", tooltip: "Abstract interpretation in acrylic inspired from scripture." },
+ { src: "uponthewaters.jpg", description: "Gentle Feet", tooltip: "Soft, airy hues. Acrylic on canvas." },
+ { src: "flowerbud.jpg", description: "Promise of Blooms", tooltip: "Playing with green, a water color piece " },
+ { src: "sunsetatgrandpas.jpg", description: "Hues of Dusk", tooltip: "Recreation of a cherished photo on repurposed cloth." },
+ { src: "hues.jpg", description: "Reign of Joy", tooltip: "Two-piece acrylic abstract art." },
+ { src: "birchforest.jpg", description: "Still", tooltip: "Experimenting with dark and light shades on 3 piece acrylic canvas." },
+ { src: "manabstract.jpg", description: "Selah", tooltip: "Abstract watercolor on Paper." },
+ { src: "dandelionstwilight.jpg", description: "Whispers of Twilight", tooltip: "Watercolor." },
+ { src: "twobirds.jpg", description: "Perched in Peace", tooltip: "An early Acrylic on canvas exploring the golden hour tones" },
+ { src: "floweringbranch.jpg", description: "Magnolias", tooltip: "Acrylic on canvas." },
+ { src: "orangecanvas1.jpg", description: "Flowers", tooltip: "Acrylic on canvas." },
+ { src: "lillies.jpg", description: "Flowers", tooltip: "Acrylic on canvas." },
+ { src: "lionandlamb.jpg", description: "The Lion and the Lamb", tooltip: "Pencil Sketch." },
+ { src: "thevase.jpg", description: "The Blue Vase", tooltip: "Among the early watercolor explorations" },
+ { src: "birchtrees.jpg", description: "Whispering Birches", tooltip: "Golden hues, Acrylic art on hard paper" },  
+ { src: "thewalk.jpg", description: "Friends", tooltip: "Watercolor" },
+ { src: "bliss.jpg", description: "Riot of Colors", tooltip: "Watercolor" },
+ { src: "harp.jpg", description: "Expressions", tooltip: "Watercolor" },
+ { src: "uponthesea.jpg", description: "To the Horizon", tooltip: "Watercolor" },
+ { src: "mountainsvalley.jpg", description: "Up in the Mountains", tooltip: "Watercolor" },
+ { src: "inthewoods.jpg", description: "The Cottage", tooltip: "Watercolor" },
+ { src: "stillwaters.jpg", description: "Still Waters", tooltip: "Acrylic" },
+ { src: "forward.jpg", description: "In to the Sunset", tooltip: "Acrylic" },
+ { src: "redflowers.jpg", description: "Crimson Blooms", tooltip: "Exploring Watercolor" }   
+];
+        let currentIndex = 0;
+        const imageElement = document.getElementById("album-image");
+        const descriptionElement = document.getElementById("image-description");
+        const tooltip = document.getElementById("tooltip");
+
+        function updateImage() {
+            imageElement.src = paintings[currentIndex].src;
+            descriptionElement.textContent = paintings[currentIndex].description;
+        }
+
+        function nextImage() {
+            currentIndex = (currentIndex + 1) % paintings.length;
+            updateImage();
+        }
+
+        function prevImage() {
+            currentIndex = (currentIndex - 1 + paintings.length) % paintings.length;
+            updateImage();
+        }
+
+        function showTooltip(event) {
+            tooltip.textContent = paintings[currentIndex].tooltip; // Custom tooltip text
+            tooltip.style.display = "block";
+            tooltip.style.left = event.pageX + 15 + "px";
+            tooltip.style.top = event.pageY + 10 + "px";
+        }
+
+        function hideTooltip() {
+            tooltip.style.display = "none";
+        }
+    </script>
+
+</body>
+</html>
